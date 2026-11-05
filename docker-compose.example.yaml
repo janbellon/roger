@@ -1,8 +1,7 @@
 # Copy to docker-compose.yaml, set a password, then run: docker compose up -d
 services:
   roger:
-    build: .
-    image: roger:latest
+    image: ghrc.io/janbellon/roger:v0.1.0
     container_name: roger
     restart: unless-stopped
     ports:

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#0a0a0a">
+  <meta name="description" content="Paste a link, pick a format, get the file. Roger downloads videos from YouTube, X, Instagram, TikTok and 1,800+ other sites.">
+  <title>Roger</title>
+  <link rel="icon" href="/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" id="home">
+      <img src="/logo.svg" alt="" width="28" height="28">
+      <span>Roger</span>
+    </a>
+  </header>
+
+  <main>
+    <section class="hero" id="hero">
+      <h1>Paste a link. <span class="accent">Roger that.</span></h1>
+      <p>Save any video from YouTube, X, Instagram, Threads, TikTok and 1,800+ more sites, straight to your device.</p>
+    </section>
+
+    <section id="view-input" class="view">
+      <form id="url-form" class="urlbar" novalidate>
+        <label class="sr-only" for="url">Video link</label>
+        <svg class="urlbar-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 6 .4l3-3a4 4 0 0 0-5.7-5.7l-1.1 1.1M14 10a4 4 0 0 0-6-.4l-3 3a4 4 0 0 0 5.7 5.7l1.1-1.1"/></svg>
+        <input id="url" type="url" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" autofocus placeholder="https://youtube.com/watch?v=…" aria-describedby="url-warning">
+        <button type="button" id="paste" class="ghost" hidden>Paste</button>
+        <button type="submit" class="primary">Fetch</button>
+      </form>
+      <p id="url-warning" class="warning" role="alert" hidden></p>
+
+      <div id="recent" class="recent" hidden>
+        <div class="recent-head">
+          <h2>Recent</h2>
+          <button type="button" id="clear-recent" class="link">Clear</button>
+        </div>
+        <ul id="recent-list"></ul>
+      </div>
+    </section>
+
+    <section id="view-probing" class="view" hidden>
+      <div class="urlbar is-busy">
+        <span class="spinner" aria-hidden="true"></span>
+        <span id="probing-url" class="urlbar-text"></span>
+        <button type="button" class="ghost" data-action="cancel">Cancel</button>
+      </div>
+      <p class="status" role="status">Fetching video info…</p>
+    </section>
+
+    <section id="view-picking" class="view" hidden>
+      <div class="card picker">
+        <div class="media">
+          <div class="thumb" id="thumb-frame"><img id="thumb" alt="" referrerpolicy="no-referrer" hidden></div>
+          <h2 id="video-title"></h2>
+          <p id="video-meta" class="muted"></p>
+        </div>
+        <div class="formats">
+          <h3>Choose a format</h3>
+          <ul id="choices"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-downloading" class="view" hidden>
+      <div class="card progress-card">
+        <p id="dl-title" class="dl-title"></p>
+        <p id="dl-choice" class="muted"></p>
+        <div id="bar" class="bar" role="progressbar" aria-label="Download progress" aria-valuemin="0" aria-valuemax="100"><span id="bar-fill"></span></div>
+        <div class="dl-row">
+          <p id="dl-status" class="dl-status" role="status"></p>
+          <p id="dl-stats" class="muted tabular"></p>
+        </div>
+        <button type="button" class="secondary" data-action="cancel">Cancel</button>
+      </div>
+    </section>
+
+    <section id="view-done" class="view" hidden>
+      <div class="card result-card">
+        <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span>
+        <h2>Roger that.</h2>
+        <p class="muted">Your download has started in the browser.</p>
+        <p id="done-file" class="file"></p>
+        <div class="actions">
+          <button type="button" class="primary" data-action="reset">Get another</button>
+          <a id="save-again" class="button secondary" download>Save again</a>
+        </div>
+        <p id="done-note" class="fineprint"></p>
+      </div>
+    </section>
+
+    <section id="view-error" class="view" hidden>
+      <div class="card result-card">
+        <span class="cross" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m7 7 10 10M17 7 7 17"/></svg></span>
+        <h2>That didn't work</h2>
+        <p id="error-message" class="muted error-message" role="alert"></p>
+        <div class="actions">
+          <button type="button" class="primary" data-action="reset">Try again</button>
+        </div>
+      </div>
+    </section>
+
+    <p id="hints" class="hints" aria-hidden="true"></p>
+  </main>
+
+  <footer class="footer">
+    <p>Only download what you have the right to keep.</p>
+    <p id="versions" class="tabular"></p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,44 @@
+# Copy to docker-compose.yaml, set a password, then run: docker compose up -d
+services:
+  roger:
+    build: .
+    image: roger:latest
+    container_name: roger
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      # Password for the web interface (any username). Leave empty only on a
+      # trusted network: without it, anyone who reaches the port can use it.
+      ROGER_PASSWORD: "change-me"
+
+      # Downloads running at once. Others wait in a queue.
+      ROGER_MAX_CONCURRENT: "2"
+
+      # How long a finished file stays available before it is deleted.
+      ROGER_FILE_TTL: "15m"
+
+      # Longest a single download may run.
+      ROGER_DOWNLOAD_TIMEOUT: "1h"
+
+      # Largest download allowed, like 500M or 2G. Empty means no limit.
+      ROGER_MAX_FILESIZE: ""
+
+      # How often yt-dlp updates itself. "0s" turns this off.
+      ROGER_YTDLP_UPDATE_INTERVAL: "24h"
+
+      # Extra options for yt-dlp, such as a proxy or cookies (see the README).
+      # ROGER_YTDLP_ARGS: "--cookies /config/cookies.txt"
+    volumes:
+      # Temporary files. Needs room for the downloads running at once.
+      - roger-data:/data
+      # Uncomment for sites that require a login. yt-dlp rewrites this file, so
+      # it must be writable by uid 1000.
+      # - ./cookies.txt:/config/cookies.txt
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  roger-data:
